@@ -1,8 +1,8 @@
 'use strict';
 
-const apiKey = 'beccaww' 
 
-const searchURL = 'https://api.github.com/users/:username/repos';
+
+const searchURL = 'https://api.github.com/users/';
 
 
 function formatTypeParams(params) {
@@ -31,16 +31,12 @@ function getRepos(type, sort, direction) {
     direction: direction,
   };
   const typeString = formatTypeParams(params)
-  const url = searchURL + '?' + typeString;
+  const url = searchURL + type + 'repos' + '?' + typeString;
 
   console.log(url);
 
-  const options = {
-    headers: new Headers({
-      "X-Api-Key": apiKey})
-  };
-
-  fetch(url, options)
+  
+  fetch(url)
     .then(response => {
       if (response.ok) {
         return response.json();

@@ -1,9 +1,6 @@
 'use strict';
 
-
-
-const searchURL = 'https://api.github.com/users/';
-
+const searchURL = 'https://api.github.com/users/:';
 
 function formatTypeParams(params) {
   const typeItems = Object.keys(params)
@@ -24,14 +21,17 @@ function displayResults(responseJson) {
   $('#results').removeClass('hidden');
 };
 
-function getRepos(type, sort, direction) {
+function getRepos(query, maxResults= 10 ) {
   const params = {
-    type: type,
-    sort: sort,
-    direction: direction,
+    //type: query,
+    query, 
+    
+    //sort:
+    //direction:
+
   };
   const typeString = formatTypeParams(params)
-  const url = searchURL + type + 'repos' + '?' + typeString;
+  const url = searchURL + query + '/repos';
 
   console.log(url);
 

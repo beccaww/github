@@ -21,17 +21,17 @@ function displayResults(responseJson) {
   $('#results').removeClass('hidden');
 };
 
-function getRepos(query, maxResults= 10 ) {
-  const params = {
-    //type: query,
-    query, 
+function getRepos(owner, maxResults = 10 ) {
+  let params = {
+    type: owner,
+     
     
     //sort:
     //direction:
 
   };
   const typeString = formatTypeParams(params)
-  const url = searchURL + query + '/repos';
+  const url = searchURL + params + '/repos';
 
   console.log(url);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const searchURL = 'https://api.github.com/users/:';
+const searchURL = 'https://api.github.com/users/';
 
 function formatTypeParams(params) {
   const typeItems = Object.keys(params)
@@ -8,30 +8,19 @@ function formatTypeParams(params) {
   return typeItems.join('&');
 }
 
-function displayResults(responseJson) {
-  console.log(responseJson);
+function displayResults(repos) {
+  console.log(repos);
   $('#results-list').empty();
-  for (let i = 0; i < responseJson.repos.length; i++){
+  for (let i = 0; i < repos.length; i++){
     $('#results-list').append(
-      `<li><h3><a href="${responseJson.repos[i].url}">${responseJson.repos[i].owner}</a></h3>
-      <p>${responseJson.repos[i].source.full_name}</p>
-      <p>${responseJson.repos[i].url}</p>
+      `<li><h3><a href="${repos[i].html_url}">${repos[i].name}</a></h3>
       </li>`
     )};
   $('#results').removeClass('hidden');
 };
 
-function getRepos(owner, maxResults = 10 ) {
-  let params = {
-    type: owner,
-     
-    
-    //sort:
-    //direction:
-
-  };
-  const typeString = formatTypeParams(params)
-  const url = searchURL + params + '/repos';
+function getRepos(username) {
+  const url = 'https://api.github.com/users/' + username + '/repos';
 
   console.log(url);
 
@@ -43,7 +32,7 @@ function getRepos(owner, maxResults = 10 ) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => displayResults(responseJson, maxResults))
+    .then(responseJson => displayResults(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
@@ -52,9 +41,8 @@ function getRepos(owner, maxResults = 10 ) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    const searchTerm = $('#js-search-term').val();
-    const maxResults = $('#js-max-results').val();
-    getRepos(searchTerm, maxResults);
+    const username = $('#username').val();
+    getRepos(username);
   });
 }
 
